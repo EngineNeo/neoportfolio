@@ -1,8 +1,7 @@
-// useTypingEffect.js
 import { useState, useEffect } from "react";
 
-export const useTypingEffect = (text, writeSpeed = 60, startTyping = true) => {
-  const [displayedText, setDisplayedText] = useState("");
+export const useTypingEffect = (text, writeSpeed = 80, startTyping = true) => {
+  const [displayedText, setDisplayedText] = useState(" "); // Start with a whitespace
   const [index, setIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
 

@@ -5,7 +5,7 @@ import withStyles from "@mui/styles/withStyles";
 import { Typography } from "@mui/material";
 import WaveBorder from "../../../shared/components/WaveBorder";
 import { useTypingEffect } from "../../../shared/components/useTypingEffect";
-import DigitalRainComponent from "../../../shared/components/digitalRain";
+// import DigitalRainComponent from "../../../shared/components/digitalRain";
 
 const styles = (theme) => ({
   extraLargeButtonLabel: {
@@ -68,6 +68,10 @@ const styles = (theme) => ({
     boxShadow: theme.shadows[4],
   },
   container: {
+    height: '400px', // Fixed height
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center', // Center content vertically
     marginTop: theme.spacing(6),
     marginBottom: theme.spacing(12),
     [theme.breakpoints.down("lg")]: {
@@ -96,14 +100,14 @@ const styles = (theme) => ({
     "50%": { opacity: 0 },
     "100%": { opacity: 1 }
   },
-  digitalRain: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    width: '70%', // Display only the right half
-    height: '100%',
-    zIndex: 0,  // to make sure it's behind the text
-  },
+  // digitalRain: {
+  //   position: 'absolute',
+  //   top: 0,
+  //   right: 0,
+  //   width: '70%', // Display only the right half
+  //   height: '100%',
+  //   zIndex: 0,  // to make sure it's behind the text
+  // },
 });
 
 function HeadSection(props) {
@@ -115,7 +119,7 @@ function HeadSection(props) {
   return (
     <Fragment>
       <div className={classNames("lg-p-top", classes.wrapper)}>
-        <DigitalRainComponent className={classes.digitalRain} />
+        {/* <DigitalRainComponent className={classes.digitalRain} /> */}
         <div className={classNames("container-fluid", classes.container)}>
           <Typography variant="h1" align="left" className="lg-mg-top" color="white">
             {title}
