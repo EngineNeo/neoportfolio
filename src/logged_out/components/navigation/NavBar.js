@@ -9,6 +9,10 @@ import BookIcon from "@mui/icons-material/Book";
 import NavigationDrawer from "../../../shared/components/NavigationDrawer";
 
 const styles = theme => ({
+  appBarTop: {
+    boxShadow: "none",
+    backgroundColor: "transparent",
+  },
   appBar: {
     boxShadow: theme.shadows[6],
     backgroundColor: theme.palette.common.darkBlack,
@@ -37,7 +41,7 @@ function NavBar(props) {
 
   useEffect(() => {
     const onScroll = () => {
-      const isTop = window.scrollY < 100; // You can adjust this value
+      const isTop = window.scrollY < 600; // You can adjust this value
       if (isTop !== isTransparent) {
         setTransparent(isTop);
       }
@@ -74,7 +78,10 @@ function NavBar(props) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar 
+        position="fixed" 
+        className={isTransparent ? classes.appBarTop : classes.appBar} // Conditionally switching styles
+      >
         <Toolbar className={classes.toolbar}>
           <div>
             <Hidden mdUp>
