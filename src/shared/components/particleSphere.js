@@ -212,7 +212,7 @@ class Molecule extends THREE.Object3D {
         '#include <begin_vertex>',
         `
           vec3 p = position;
-          float n = snoise( vec3( p.x*.6 + time*0.1, p.y*0.4 + time*0.15, p.z*.2 + time*0.1) );
+          float n = snoise( vec3( p.x*.6 + time*0.05, p.y*0.4 + time*0.01, p.z*.2 + time*0.05) );
           p += n *0.4;
 
           // constrain to sphere radius

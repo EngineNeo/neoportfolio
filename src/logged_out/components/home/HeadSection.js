@@ -118,14 +118,14 @@ const styles = (theme) => ({
 function HeadSection(props) {
   const { classes, theme } = props;
 
-  const [title, isTitleTyping] = useTypingEffect("Hello, I'm Neo", 80, true);
-  const [subtitle] = useTypingEffect("a software engineer dedicated to crafting efficient and innovative solutions", 80, !isTitleTyping);
+  const [title, isTitleTyping] = useTypingEffect("Hello, I'm Neo", 60, true);
+  const [subtitle] = useTypingEffect("a software engineer dedicated to crafting efficient and innovative solutions", 60, !isTitleTyping);
 
   return (
     <Fragment>
       <div className={classNames(classes.wrapper)}>
         <ParticleSphere className={classes.particleSphere} />
-        <div className={classNames("container-fluid", classes.container)}>
+        <div className={classNames("container-fluid", classes.container)} style={{marginTop: "150px"}}>
           <Typography variant="h1" align="left" className="lg-mg-top" color="white">
             {title}
             {isTitleTyping && <span className={classes.blinkingUnderscore}>_</span>}
