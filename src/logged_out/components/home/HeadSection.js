@@ -5,7 +5,7 @@ import withStyles from "@mui/styles/withStyles";
 import { Typography } from "@mui/material";
 import WaveBorder from "../../../shared/components/WaveBorder";
 import { useTypingEffect } from "../../../shared/components/useTypingEffect";
-// import DigitalRainComponent from "../../../shared/components/digitalRain";
+import ParticleSphere from "../../../shared/components/particleSphere";
 
 const styles = (theme) => ({
   extraLargeButtonLabel: {
@@ -60,6 +60,17 @@ const styles = (theme) => ({
     position: "relative",
     backgroundColor: theme.palette.secondary.main,
     paddingBottom: theme.spacing(2),
+    maxHeight: "800px",
+    overflow: 'hidden' // this prevents any overflow
+  },
+    // For ParticleSphere component:
+  particleSphere: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: 1
   },
   image: {
     maxWidth: "100%",
@@ -67,11 +78,13 @@ const styles = (theme) => ({
     borderRadius: theme.shape.borderRadius,
     boxShadow: theme.shadows[4],
   },
+  // For the container div:
   container: {
-    height: '400px', // Fixed height
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center', // Center content vertically
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 2,  // this ensures the container is layered on top of ParticleSphere
     marginTop: theme.spacing(6),
     marginBottom: theme.spacing(12),
     [theme.breakpoints.down("lg")]: {
@@ -100,14 +113,6 @@ const styles = (theme) => ({
     "50%": { opacity: 0 },
     "100%": { opacity: 1 }
   },
-  // digitalRain: {
-  //   position: 'absolute',
-  //   top: 0,
-  //   right: 0,
-  //   width: '70%', // Display only the right half
-  //   height: '100%',
-  //   zIndex: 0,  // to make sure it's behind the text
-  // },
 });
 
 function HeadSection(props) {
@@ -118,8 +123,8 @@ function HeadSection(props) {
 
   return (
     <Fragment>
-      <div className={classNames("lg-p-top", classes.wrapper)}>
-        {/* <DigitalRainComponent className={classes.digitalRain} /> */}
+      <div className={classNames(classes.wrapper)}>
+        <ParticleSphere className={classes.particleSphere} />
         <div className={classNames("container-fluid", classes.container)}>
           <Typography variant="h1" align="left" className="lg-mg-top" color="white">
             {title}

@@ -41,7 +41,7 @@ function NavBar(props) {
 
   useEffect(() => {
     const onScroll = () => {
-      const isTop = window.scrollY < 600; // You can adjust this value
+      const isTop = window.scrollY < 750; // You can adjust this value
       if (isTop !== isTransparent) {
         setTransparent(isTop);
       }
