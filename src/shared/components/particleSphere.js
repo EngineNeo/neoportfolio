@@ -157,10 +157,10 @@ class Molecule extends THREE.Object3D {
     
   constructor() {
     super();
-    this.detail = 15; // For example, you can adjust this value
+    this.detail = 10; // For example, you can adjust this value
     this.radius = 2; // Adjust as needed
     this.particleSizeMin = 0.01; // Adjust as needed
-    this.particleSizeMax = 0.08; // Adjust as needed
+    this.particleSizeMax = 0.06; // Adjust as needed
     this.build();
   }
 
