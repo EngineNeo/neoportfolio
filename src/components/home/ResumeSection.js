@@ -10,7 +10,7 @@ function ProjectSection(props) {
     <div id="resume-section" style={{ backgroundColor: "#353839" }}>
       <div className="container-fluid lg-p-top">
         <Typography variant="h2" align="center" className="lg-mg-bottom" color="white">
-          Resume <DescriptionIcon style={{ fontSize: 40 }} />
+          Resume <DescriptionIcon style={{ fontSize: 50 }} />
         </Typography>
         <div className="container-fluid" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
             
@@ -22,6 +22,7 @@ function ProjectSection(props) {
                 width: "50%", 
                 boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.30)'
               }}
+              data-aos="zoom-out"
             />
 
             {/* Download button */}

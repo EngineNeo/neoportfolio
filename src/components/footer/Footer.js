@@ -129,7 +129,7 @@ function Footer(props) {
         animationNegativeDelay={4}
       />
       <div className={classes.footerInner}>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} display="flex" justifyContent="center">
           <Hidden lgDown>
             <Grid item xs={12} md={6} lg={4}>
               <Box display="flex" justifyContent="center">
