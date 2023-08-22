@@ -172,7 +172,7 @@ class Molecule extends THREE.Object3D {
       blending: THREE.AdditiveBlending,
       color: 0xffb427,
       depthTest: false,
-      opacity: 0.1
+      opacity: 0.075
     });
     this.setupShader(this.material);
     this.mesh = new THREE.Points(this.geometry, this.material);

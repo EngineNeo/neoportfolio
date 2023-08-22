@@ -38,7 +38,7 @@ function ProjectSection(props) {
     <div id="project-section" style={{ backgroundColor: "#353839" }}>
       <div className="container-fluid lg-p-top">
         <Typography variant="h2" align="center" className="lg-mg-bottom" color="white">
-          Projects <BuildIcon style={{ fontSize: 40 }} />
+          Projects <BuildIcon style={{ fontSize: 50 }} />
         </Typography>
         <div className="container-fluid">
           <CardProvider>

@@ -14,7 +14,7 @@ const styles = {
       background: props => props.color || null,
       position: "fixed",
       zIndex: 2000,
-      top: 0,
+      bottom: 0,
       right: "100%",
       width: "100%",
       height: 3
