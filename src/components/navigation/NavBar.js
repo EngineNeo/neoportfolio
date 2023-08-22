@@ -6,7 +6,7 @@ import withStyles from '@mui/styles/withStyles';
 import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
 import BookIcon from "@mui/icons-material/Book";
-import NavigationDrawer from "../../../shared/components/NavigationDrawer";
+import NavigationDrawer from "../../shared/components/NavigationDrawer";
 
 const styles = theme => ({
   appBarTop: {
@@ -39,6 +39,13 @@ const styles = theme => ({
 function NavBar(props) {
   const [isTransparent, setTransparent] = useState(true);
 
+  const scrollTo = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   useEffect(() => {
     const onScroll = () => {
       const isTop = window.scrollY < 750; // You can adjust this value
@@ -58,18 +65,22 @@ function NavBar(props) {
     mobileDrawerOpen,
     selectedTab
   } = props;
+
   const menuItems = [
     {
+      id: "head-section",  // Assuming this is the id of the Home section
       link: "/",
       name: "Home",
       icon: <HomeIcon className="text-white" />
     },
     {
+      id: "project-section", // Assuming this is the id of the Projects section
       link: "/Projects",
       name: "Projects",
       icon: <BookIcon className="text-white" />
     },
     {
+      id: "resume-section",  // Assuming this is the id of the Resume section
       link: "/Resume",
       name: "Resume",
       icon: <BookIcon className="text-white" />
@@ -95,34 +106,26 @@ function NavBar(props) {
             </Hidden>
             <Hidden mdDown>
               {menuItems.map(element => {
-                if (element.link) {
-                  return (
-                    <Link
-                      key={element.name}
-                      to={element.link}
-                      className={classes.noDecoration}
-                      onClick={handleMobileDrawerClose}
-                    >
-                      <Button
-                        color="primary"
-                        size="large"
-                        classes={{ text: classes.menuButtonText }}
-                      >
-                        {element.name}
-                      </Button>
-                    </Link>
-                  );
-                }
                 return (
-                  <Button
-                    color="primary"
-                    size="large"
-                    onClick={element.onClick}
-                    classes={{ text: classes.menuButtonText }}
+                  <Link
                     key={element.name}
+                    to={element.link}
+                    className={classes.noDecoration}
+                    onClick={() => {
+                      handleMobileDrawerClose();
+                      if (element.id) {
+                        scrollTo(element.id);
+                      }
+                    }}
                   >
-                    {element.name}
-                  </Button>
+                    <Button
+                      color="primary"
+                      size="large"
+                      classes={{ text: classes.menuButtonText }}
+                    >
+                      {element.name}
+                    </Button>
+                  </Link>
                 );
               })}
             </Hidden>

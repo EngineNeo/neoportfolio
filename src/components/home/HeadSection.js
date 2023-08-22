@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import withStyles from "@mui/styles/withStyles";
 import { Typography } from "@mui/material";
-import WaveBorder from "../../../shared/components/WaveBorder";
-import { useTypingEffect } from "../../../shared/components/useTypingEffect";
-import ParticleSphere from "../../../shared/components/particleSphere";
+import WaveBorder from "../../shared/components/WaveBorder";
+import { useTypingEffect } from "../../shared/components/useTypingEffect";
+import ParticleSphere from "../../shared/components/particleSphere";
 
 const styles = (theme) => ({
   extraLargeButtonLabel: {
@@ -123,7 +123,7 @@ function HeadSection(props) {
 
   return (
     <Fragment>
-      <div className={classNames(classes.wrapper)}>
+      <div id="head-section" className={classNames(classes.wrapper)}>
         <ParticleSphere className={classes.particleSphere} />
         <div className={classNames("container-fluid", classes.container)} style={{marginTop: "150px"}}>
           <Typography variant="h1" align="left" className="lg-mg-top" color="white">

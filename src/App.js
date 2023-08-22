@@ -5,7 +5,7 @@ import theme from "./theme";
 import GlobalStyles from "./GlobalStyles";
 import Pace from "./shared/components/Pace";
 
-const LoggedOutComponent = lazy(() => import("./logged_out/components/Main"));
+const PortfolioComponent = lazy(() => import("./components/Main"));
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
           <Suspense fallback={<Fragment />}>
             <Switch>
               <Route>
-                <LoggedOutComponent />
+                <PortfolioComponent />
               </Route>
             </Switch>
           </Suspense>
