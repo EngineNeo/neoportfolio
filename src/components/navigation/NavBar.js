@@ -84,6 +84,12 @@ function NavBar(props) {
       link: "/Resume",
       name: "Resume",
       icon: <BookIcon className="text-white" />
+    },
+    {
+      id: "contact-section",  // Assuming this is the id of the Resume section
+      link: "/Contact",
+      name: "Contact",
+      icon: <BookIcon className="text-white" />
     }
   ];
 
