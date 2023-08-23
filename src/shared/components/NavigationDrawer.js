@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+
 import {
   List,
   ListItem,
@@ -21,6 +21,7 @@ const styles = (theme) => ({
   },
   headSection: {
     width: 200,
+    backgroundColor: theme.palette.common.darkBlack
   },
   blackList: {
     backgroundColor: theme.palette.common.black,
@@ -32,7 +33,7 @@ const styles = (theme) => ({
 });
 
 function NavigationDrawer(props) {
-  const { open, onClose, anchor, classes, menuItems, selectedItem, theme } =
+  const { open, onClose, anchor, classes, menuItems, selectedItem, theme, scrollTo } =
     props;
   const isWidthUpSm = useMediaQuery(theme.breakpoints.up("sm"));
 
@@ -67,42 +68,22 @@ function NavigationDrawer(props) {
       </Toolbar>
       <List className={classes.blackList}>
         {menuItems.map((element) => {
-          if (element.link) {
-            return (
-              <Link
-                key={element.name}
-                to={element.link}
-                className={classes.noDecoration}
-                onClick={onClose}
-              >
-                <ListItem
-                  button
-                  selected={selectedItem === element.name}
-                  /**
-                   * We disable ripple as it will make a weird animation
-                   * with primary and secondary color
-                   */
-                  disableRipple
-                  disableTouchRipple
-                >
-                  <ListItemIcon>{element.icon}</ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <Typography variant="subtitle1" className="text-white">
-                        {element.name}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              </Link>
-            );
-          }
           return (
-            <ListItem button key={element.name} onClick={element.onClick}>
+            <ListItem
+              button
+              key={element.name}
+              selected={selectedItem === element.name}
+              onClick={() => {
+                onClose();
+                if (element.id) {
+                  scrollTo(element.id);
+                }
+              }}
+            >
               <ListItemIcon>{element.icon}</ListItemIcon>
               <ListItemText
                 primary={
-                  <Typography variant="subtitle1" className="text-white">
+                  <Typography variant="subtitle1" color="white">
                     {element.name}
                   </Typography>
                 }
@@ -123,6 +104,7 @@ NavigationDrawer.propTypes = {
   menuItems: PropTypes.arrayOf(PropTypes.object).isRequired,
   classes: PropTypes.object.isRequired,
   selectedItem: PropTypes.string,
+  scrollTo: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(NavigationDrawer);
