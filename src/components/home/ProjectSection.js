@@ -58,6 +58,9 @@ function ProjectSection(props) {
                       color={element.color}
                       headline={element.headline}
                       text={element.text}
+                      style={{ 
+                        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.30)'
+                      }}
                     />
                 </Grid>
               ))}

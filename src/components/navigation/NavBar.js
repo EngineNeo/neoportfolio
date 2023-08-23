@@ -5,7 +5,9 @@ import { AppBar, Toolbar, Button, Hidden, IconButton } from "@mui/material";
 import withStyles from '@mui/styles/withStyles';
 import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
-import BookIcon from "@mui/icons-material/Book";
+import DescriptionIcon from "@mui/icons-material/Description";
+import MailIcon from '@mui/icons-material/Mail';
+import BuildIcon from "@mui/icons-material/Build";
 import NavigationDrawer from "../../shared/components/NavigationDrawer";
 
 const styles = theme => ({
@@ -77,19 +79,19 @@ function NavBar(props) {
       id: "project-section", // Assuming this is the id of the Projects section
       link: "/Projects",
       name: "Projects",
-      icon: <BookIcon className="text-white" />
+      icon: <BuildIcon className="text-white" />
     },
     {
       id: "resume-section",  // Assuming this is the id of the Resume section
       link: "/Resume",
       name: "Resume",
-      icon: <BookIcon className="text-white" />
+      icon: <DescriptionIcon className="text-white" />
     },
     {
       id: "contact-section",  // Assuming this is the id of the Resume section
       link: "/Contact",
       name: "Contact",
-      icon: <BookIcon className="text-white" />
+      icon: <MailIcon className="text-white" />
     }
   ];
 
@@ -144,6 +146,7 @@ function NavBar(props) {
         open={mobileDrawerOpen}
         selectedItem={selectedTab}
         onClose={handleMobileDrawerClose}
+        scrollTo={scrollTo}  // Passing scrollTo function as a prop
       />
     </div>
   );
