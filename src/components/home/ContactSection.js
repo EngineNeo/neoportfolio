@@ -1,91 +1,99 @@
 import React, { useRef } from "react";
-import { Typography, TextField, Button, Box, Grid } from "@mui/material";
+import { Typography, TextField, Button, Box } from "@mui/material";
 import MailIcon from '@mui/icons-material/Mail';
 import emailjs from '@emailjs/browser';
+import { withStyles } from '@mui/styles';
 
 const serviceId = process.env.REACT_APP_YOUR_SERVICE_ID;
 const templateId = process.env.REACT_APP_YOUR_TEMPLATE_ID;
 const publicKey = process.env.REACT_APP_YOUR_PUBLIC_KEY;
 
+const styles = (theme) => ({
+    boxStyle: {
+        backgroundColor: "#343a40",
+        borderRadius: "16px",
+        padding: theme.spacing(3),
+        width: '100%', // Default width
+        [theme.breakpoints.up('sm')]: {
+            width: '800px' // Width on screens larger than 'sm'
+        },
+        minHeight: "400px",
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.30)',
+    },
+    textFieldStyles: {
+        backgroundColor: '#3b444b',
+        color: 'white',
+    },
+    submitButton: {
+        marginTop: theme.spacing(1),
+        color: '#3b444b',
+    },
+    icon: {
+        fontSize: 50,
+    }
+});
+
 function ContactSection(props) {
+    const { classes } = props;
     const form = useRef();
 
     const sendEmail = (e) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    emailjs.sendForm(serviceId, templateId, form.current, publicKey)
-        .then((result) => {
-            console.log(result.text);
-            e.target.reset();
-        }, (error) => {
-            console.log(error.text);
-        });
-    };
-
-    const textFieldStyles = {
-        backgroundColor: '#3b444b',
-        color: 'white'
+        emailjs.sendForm(serviceId, templateId, form.current, publicKey)
+            .then((result) => {
+                console.log(result.text);
+                e.target.reset();
+            }, (error) => {
+                console.log(error.text);
+            });
     };
 
     return (
-        <Grid container id="contact-section" style={{ backgroundColor: "#353839", padding: '2rem' }}>
-            <Grid item xs={12} md={12}>
-                <Typography variant="h2" align="center" className="lg-mg-bottom" color="white">
-                    Let's get in touch <MailIcon style={{ fontSize: 50 }} />
-                </Typography>
-            </Grid>
-            <Grid item xs={12} md={12} container justifyContent="center">
-                <Box 
-                backgroundColor="#414a4c"
-                borderRadius="16px"
-                p={3}
-                width={{ xs: '100%', sm: '800px'}}
-                minHeight="400px"
-                data-aos="fade-down"
-                data-aos-anchor-placement="center-center"
-                style={{ boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.30)'}}>
-                    <form ref={form} onSubmit={sendEmail}>
-                        <TextField
-                            label="Name"
-                            variant="filled"
-                            margin="normal"
-                            name="user_name"
-                            fullWidth
-                            style={textFieldStyles}
-                            InputLabelProps={{style: { color: 'white' }}}
-                            InputProps={{style: { color: 'white' }}}
-                        />
-                        <TextField
-                            label="Email"
-                            variant="filled"
-                            margin="normal"
-                            name="user_email"
-                            type="email"
-                            fullWidth
-                            style={textFieldStyles}
-                            InputLabelProps={{style: { color: 'white' }}}
-                            InputProps={{style: { color: 'white' }}}
-                        />
-                        <TextField
-                            label="Message"
-                            variant="filled"
-                            margin="normal"
-                            name="message"
-                            multiline
-                            rows={4}
-                            fullWidth
-                            style={textFieldStyles}
-                            InputLabelProps={{style: { color: 'white' }}}
-                            InputProps={{style: { color: 'white' }}}
-                        />
-                        <Button type="submit" variant="contained" color="primary" style={{ marginTop: '1rem', color: '#3b444b' }}>
-                            Send
-                        </Button>
-                    </form>
-                </Box>
-            </Grid>
-        </Grid>
+        <Box className={classes.boxStyle}>
+            <Typography variant="h2" align="center" color="white" style={{ marginBottom: '1rem' }}>
+                Let's get in touch <MailIcon className={classes.icon} />
+            </Typography>
+            <form ref={form} onSubmit={sendEmail}>
+                <TextField
+                    label="Name"
+                    variant="filled"
+                    margin="normal"
+                    name="user_name"
+                    fullWidth
+                    className={classes.textFieldStyles}
+                    InputLabelProps={{ style: { color: 'white' } }}
+                    InputProps={{ style: { color: 'white' } }}
+                />
+                <TextField
+                    label="Email"
+                    variant="filled"
+                    margin="normal"
+                    name="user_email"
+                    type="email"
+                    fullWidth
+                    className={classes.textFieldStyles}
+                    InputLabelProps={{ style: { color: 'white' } }}
+                    InputProps={{ style: { color: 'white' } }}
+                />
+                <TextField
+                    label="Message"
+                    variant="filled"
+                    margin="normal"
+                    name="message"
+                    multiline
+                    rows={4}
+                    fullWidth
+                    className={classes.textFieldStyles}
+                    InputLabelProps={{ style: { color: 'white' } }}
+                    InputProps={{ style: { color: 'white' } }}
+                />
+                <Button type="submit" variant="contained" color="primary" className={classes.submitButton}>
+                    Send
+                </Button>
+            </form>
+        </Box>
     );
 }
 
-export default ContactSection;
+export default withStyles(styles, { withTheme: true })(ContactSection);
