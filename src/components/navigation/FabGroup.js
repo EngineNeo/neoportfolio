@@ -40,7 +40,7 @@ const styles = {
     },
 };
 
-const FabGroup = ({ classes, onEmailClick }) => {
+const FabGroup = ({ classes, onEmailClick, onResumeClick }) => {
     const [hover, setHover] = useState({ Projects: false, Resume: false, Email: false, GitHub: false });
 
     const handleMouseEnter = (label) => {
@@ -53,15 +53,17 @@ const FabGroup = ({ classes, onEmailClick }) => {
 
     const handleClick = (fab) => {
         if (fab.label === 'Email') {
-            onEmailClick(); // Call the function to open the modal
+            onEmailClick();
+        } else if (fab.label === 'Resume') {
+            onResumeClick();
         } else {
-            window.location.href = fab.url; // Redirect to the URL for other Fabs
+            window.location.href = fab.url;
         }
     };
 
     const fabData = [
         { label: 'Projects', icon: <FolderIcon className={classes.icon} />, color: 'primary', url: '/projects' },
-        { label: 'Resume', icon: <DescriptionIcon className={classes.icon} />, color: 'default', url: '/resume' },
+        { label: 'Resume', icon: <DescriptionIcon className={classes.icon} />, color: 'default' },
         { label: 'Email', icon: <EmailIcon className={classes.icon} />, color: 'default' },
         { label: 'GitHub', icon: <GitHubIcon className={classes.icon} />, color: 'default', url: 'https://github.com/EngineNeo' },
     ];

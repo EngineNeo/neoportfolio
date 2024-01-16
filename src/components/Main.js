@@ -8,6 +8,7 @@ import Routing from "./Routing";
 import Modal from "@mui/material/Modal";
 
 import ContactSection from "./home/ContactSection";
+import ResumeSection from "./home/ResumeSection";
 
 AOS.init({ once: true });
 
@@ -22,33 +23,48 @@ const styles = (theme) => ({
     right: theme.spacing(4),
     zIndex: 1000, 
   },
-  container: {
+  modalContent: {
+    outline: 'none',
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh',
-  },
+    justifyContent: 'center',
+  }
 });
 
 function Main(props) {
   const { classes } = props;
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isContactModalOpen, setContactModalOpen] = useState(false);
+  const [isResumeModalOpen, setResumeModalOpen] = useState(false); 
 
-  const handleToggleModal = () => {
-    setModalOpen(!isModalOpen);
+  const handleToggleContactModal = () => {
+    setContactModalOpen(!isContactModalOpen);
+  };
+
+  const handleToggleResumeModal = () => {
+    setResumeModalOpen(!isResumeModalOpen);
   };
 
 return (
     <div className={classes.wrapper}>
-      <Modal
-        open={isModalOpen}
-        onClose={handleToggleModal}
-        className={classes.container}
-      >
-        <ContactSection />
-      </Modal>
+    <Modal
+      open={isContactModalOpen}
+      onClose={handleToggleContactModal}
+      className={classes.modalContent}
+    >
+      <ContactSection />
+    </Modal>
+    <Modal
+      open={isResumeModalOpen}
+      onClose={handleToggleResumeModal}
+      className={classes.modalContent}
+    >
+      <ResumeSection />
+    </Modal>
       <div className={classes.fabGroupPosition}>
-        <FabGroup onEmailClick={handleToggleModal} />
+        <FabGroup 
+          onEmailClick={handleToggleContactModal}
+          onResumeClick={handleToggleResumeModal}
+        />
       </div>
       <Routing />
     </div>

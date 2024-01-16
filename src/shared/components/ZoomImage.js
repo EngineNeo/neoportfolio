@@ -54,16 +54,16 @@ function ZoomImage(props) {
   }, [setZoomedIn]);
 
   useEffect(() => {
+    const headerElement = document.querySelector("header");
+
     if (zoomedIn) {
       document.body.style.overflow = "hidden";
       document.body.style.paddingRight = `${scrollbarSize}px`;
-      document.querySelector(
-        "header"
-      ).style.paddingRight = `${scrollbarSize}px`;
+      if (headerElement) headerElement.style.paddingRight = `${scrollbarSize}px`;
     } else {
       document.body.style.overflow = "auto";
       document.body.style.paddingRight = "0px";
-      document.querySelector("header").style.paddingRight = "0px";
+      if (headerElement) headerElement.style.paddingRight = "0px";
     }
   }, [zoomedIn, scrollbarSize]);
 
