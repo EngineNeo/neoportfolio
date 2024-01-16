@@ -1,7 +1,7 @@
 // Add personal email copy
 
 import React, { useRef } from "react";
-import { Typography, TextField, Button, Box } from "@mui/material";
+import { Typography, TextField, Button, Paper } from "@mui/material";
 import MailIcon from '@mui/icons-material/Mail';
 import emailjs from '@emailjs/browser';
 import { withStyles } from '@mui/styles';
@@ -11,9 +11,8 @@ const templateId = process.env.REACT_APP_YOUR_TEMPLATE_ID;
 const publicKey = process.env.REACT_APP_YOUR_PUBLIC_KEY;
 
 const styles = (theme) => ({
-    boxStyle: {
+    paperStyle: {
         backgroundColor: "#343a40",
-        borderRadius: "16px",
         padding: theme.spacing(3),
         width: '100%', // Default width
         [theme.breakpoints.up('sm')]: {
@@ -52,7 +51,7 @@ function ContactSection(props) {
     };
 
     return (
-        <Box className={classes.boxStyle}>
+        <Paper className={classes.paperStyle}>
             <Typography variant="h2" align="center" color="white" style={{ marginBottom: '1rem' }}>
                 Let's get in touch <MailIcon className={classes.icon} />
             </Typography>
@@ -94,7 +93,7 @@ function ContactSection(props) {
                     Send
                 </Button>
             </form>
-        </Box>
+        </Paper>
     );
 }
 
