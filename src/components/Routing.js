@@ -16,7 +16,6 @@ function Routing(props) {
 }
 
 Routing.propTypes = {
-  blogposts: PropTypes.arrayOf(PropTypes.object),
   selectHome: PropTypes.func.isRequired,
 };
 

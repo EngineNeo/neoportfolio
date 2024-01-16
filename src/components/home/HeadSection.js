@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import withStyles from "@mui/styles/withStyles";
 import { Typography } from "@mui/material";
-import WaveBorder from "../../shared/components/WaveBorder";
 import { useTypingEffect } from "../../shared/components/useTypingEffect";
 import ParticleSphere from "../../shared/components/particleSphere";
 
@@ -60,7 +59,7 @@ const styles = (theme) => ({
     position: "relative",
     backgroundColor: theme.palette.secondary.main,
     paddingBottom: theme.spacing(2),
-    maxHeight: "800px",
+    maxHeight: "100vh",
     overflow: 'hidden' // this prevents any overflow
   },
     // For ParticleSphere component:
@@ -102,9 +101,6 @@ const styles = (theme) => ({
       maxWidth: "none !important",
     },
   },
-  waveBorder: {
-    paddingTop: theme.spacing(4),
-  },
   blinkingUnderscore: {
     animation: `$blink 1s infinite`
   },
@@ -136,12 +132,6 @@ function HeadSection(props) {
           </Typography>
         </div>
       </div>
-      <WaveBorder
-        upperColor={theme.palette.secondary.main}
-        lowerColor="#353839"
-        className={classes.waveBorder}
-        animationNegativeDelay={2}
-      />
     </Fragment>
   );
 }
