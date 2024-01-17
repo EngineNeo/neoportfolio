@@ -4,8 +4,8 @@ self.__precacheManifest = [
     "url": "/neoportfolio/static/js/main.e2e800b0.chunk.js"
   },
   {
-    "revision": "dae5d0eb4eaf59455b84",
-    "url": "/neoportfolio/static/js/runtime~main.b396894f.js"
+    "revision": "1700155817b893adbb17",
+    "url": "/neoportfolio/static/js/runtime~main.0bae95fd.js"
   },
   {
     "revision": "3ab084a7273356653047",
@@ -20,11 +20,11 @@ self.__precacheManifest = [
     "url": "/neoportfolio/static/js/3.f1f78b68.chunk.js"
   },
   {
-    "revision": "49be529c1ef590f59044",
-    "url": "/neoportfolio/static/js/4.233eb635.chunk.js"
+    "revision": "dc5a90f2976fe5a7d8b8",
+    "url": "/neoportfolio/static/js/4.0ee7610d.chunk.js"
   },
   {
-    "revision": "cfdfea35c6e9fa4c53595d9fc32f1d57",
+    "revision": "d45f5ba7dd9c87cca8ce9a6bc2f2714d",
     "url": "/neoportfolio/index.html"
   }
 ];
