@@ -1,6 +1,5 @@
 import React from "react";
-import { Typography, Button, Paper } from "@mui/material";
-import DescriptionIcon from "@mui/icons-material/Description";
+import { Button, Paper } from "@mui/material";
 import DownloadIcon from '@mui/icons-material/Download';
 import { withStyles } from "@mui/styles";
 import ZoomImage from "../../shared/components/ZoomImage";

@@ -1,77 +1,86 @@
-import React from "react";
-import { Grid, Typography } from "@mui/material";
-import BuildIcon from "@mui/icons-material/Build";
-import calculateSpacing from "./calculateSpacing";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { withTheme } from "@mui/styles";
-import ProjectCard from "./ProjectCard";
-import useWidth from "../../shared/functions/useWidth";
-import { CardProvider } from "./CardContext"
+import React, { Fragment } from 'react';
+import Grid from '@mui/material/Grid';
+import ProjectCard from './ProjectCard';
+import { withStyles } from '@mui/styles';
 
-const features = [
+const projects = [
   {
-    headline: "Project 1",
-    text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
-    mdDelay: "0",
-    smDelay: "0",
+    image: 'path/to/image1.jpg',
+    title: 'Project One',
+    description: 'This is a description for Project One.',
+    githubLink: 'https://github.com/user/project-one'
   },
   {
-    headline: "Project 2",
-    text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
-    mdDelay: "200",
-    smDelay: "200",
+    image: 'path/to/image2.jpg',
+    title: 'Project Two',
+    description: 'This is a description for Project Two.',
+    githubLink: 'https://github.com/user/project-two'
   },
   {
-    headline: "Project 3",
-    text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
-    mdDelay: "400",
-    smDelay: "0",
+    image: 'path/to/image2.jpg',
+    title: 'Project Three',
+    description: 'This is a description for Project Three.',
+    githubLink: 'https://github.com/user/project-Three'
   },
 ];
 
-function ProjectSection(props) {
-  const { theme } = props;
-  const width = useWidth();
-  const isWidthUpMd = useMediaQuery(theme.breakpoints.up("md"));
+const styles = (theme) => ({
+  extraLargeButtonLabel: {
+    fontSize: theme.typography.body1.fontSize,
+    [theme.breakpoints.up("sm")]: {
+      fontSize: theme.typography.h6.fontSize,
+    },
+  },
+  extraLargeButton: {
+    paddingTop: theme.spacing(1.5),
+    paddingBottom: theme.spacing(1.5),
+    [theme.breakpoints.up("xs")]: {
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
+    },
+    [theme.breakpoints.up("lg")]: {
+      paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
+    },
+  },
+  wrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+    backgroundColor: theme.palette.common.darkBlack,
+    overflow: 'hidden',
+  },
+  gridContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    width: '100%',
+    margin: '0 auto',
+  },
+  gridItem: {
+    display: 'flex',
+    justifyContent: 'center', 
+  },
+});
+
+const ProjectSection = (props) => {
+  const { classes } = props;
 
   return (
-    <div id="project-section" style={{ backgroundColor: "#353839" }}>
-      <div className="container-fluid lg-p-top">
-        <Typography variant="h2" align="center" className="lg-mg-bottom" color="white">
-          Projects <BuildIcon style={{ fontSize: 50 }} />
-        </Typography>
-        <div className="container-fluid">
-          <CardProvider>
-            <Grid container spacing={calculateSpacing(width, theme)}>
-              {features.map((element) => (
-                <Grid
-                  item
-                  xs={12}
-                  md={6}
-                  lg={4}
-                  data-aos="zoom-in-up"
-                  data-aos-delay={isWidthUpMd ? element.mdDelay : element.smDelay}
-                  key={element.headline}
-                >
-                    <ProjectCard
-                      Icon={element.icon}
-                      color={element.color}
-                      headline={element.headline}
-                      text={element.text}
-                      style={{ 
-                        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.30)'
-                      }}
-                    />
-                </Grid>
-              ))}
+    <Fragment>
+      <div className={classes.wrapper}>
+        <Grid container spacing={2} className={classes.gridContainer}>
+          {projects.map((project, index) => (
+            <Grid item key={index} xs={12} sm={6} md={4} className={classes.gridItem}>
+              <ProjectCard {...project} />
             </Grid>
-          </CardProvider>
-        </div>
+          ))}
+        </Grid>
       </div>
-    </div>
+    </Fragment>
   );
-}
+};
 
-ProjectSection.propTypes = {};
-
-export default withTheme(ProjectSection);
+export default withStyles(styles)(ProjectSection);

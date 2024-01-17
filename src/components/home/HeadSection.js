@@ -112,7 +112,7 @@ const styles = (theme) => ({
 });
 
 function HeadSection(props) {
-  const { classes, theme } = props;
+  const { classes } = props;
 
   const [title, isTitleTyping] = useTypingEffect("Hello, I'm Neo", 25, true);
   const [subtitle] = useTypingEffect("a software engineer dedicated to crafting efficient and innovative solutions", 25, !isTitleTyping);

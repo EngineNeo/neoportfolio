@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import Fab from '@mui/material/Fab';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
 import DescriptionIcon from '@mui/icons-material/Description';
 import FolderIcon from '@mui/icons-material/Folder';
 import Stack from '@mui/material/Stack';
-import { withStyles } from '@mui/styles';
+import { withStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-const styles = {
+const styles = theme => ({
     fabContainer: {
-        display: 'flex', // Use flexbox for alignment
-        alignItems: 'center', // Center-align vertically
+        display: 'flex',
+        alignItems: 'center',
         position: 'relative',
         margin: '12px 0',
     },
@@ -20,6 +24,16 @@ const styles = {
         transition: 'all 0.3s',
         justifyContent: 'center',
         alignItems: 'center',
+        [theme.breakpoints.down('md')]: {
+            width: '50px',
+            height: '50px',
+        },
+    },
+    fabTopCentered: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '120px',
     },
     label: {
         position: 'absolute',
@@ -29,19 +43,25 @@ const styles = {
         color: 'white',
         transition: 'opacity 0.3s',
         whiteSpace: 'nowrap',
-        fontSize: '1.1rem', // Increased font size
-        lineHeight: '70px', // Align text vertically
+        fontSize: '1.1rem',
+        lineHeight: '70px',
     },
     labelVisible: {
         opacity: 1,
     },
     icon: {
         fontSize: '2rem',
+        [theme.breakpoints.down('md')]: {
+            width: '1.5rem',
+            height: '1.5rem',
+        },
     },
-};
+});
 
-const FabGroup = ({ classes, onEmailClick, onResumeClick }) => {
+const FabGroup = ({ classes, onEmailClick, onResumeClick, onProjectsClick, onBackClick, showProjectSection }) => {
     const [hover, setHover] = useState({ Projects: false, Resume: false, Email: false, GitHub: false });
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     const handleMouseEnter = (label) => {
         setHover({ ...hover, [label]: true });
@@ -56,8 +76,10 @@ const FabGroup = ({ classes, onEmailClick, onResumeClick }) => {
             onEmailClick();
         } else if (fab.label === 'Resume') {
             onResumeClick();
+        } else if (fab.label === 'Projects') {
+            onProjectsClick();
         } else {
-            window.location.href = fab.url;
+            window.open(fab.url, '_blank');
         }
     };
 
@@ -65,13 +87,26 @@ const FabGroup = ({ classes, onEmailClick, onResumeClick }) => {
         { label: 'Projects', icon: <FolderIcon className={classes.icon} />, color: 'primary', url: '/projects' },
         { label: 'Resume', icon: <DescriptionIcon className={classes.icon} />, color: 'default' },
         { label: 'Email', icon: <EmailIcon className={classes.icon} />, color: 'default' },
+        { label: 'LinkedIn', icon: <LinkedInIcon className={classes.icon} />, color: 'default', url: 'https://www.linkedin.com/in/neo-m-9063b3137/' },
         { label: 'GitHub', icon: <GitHubIcon className={classes.icon} />, color: 'default', url: 'https://github.com/EngineNeo' },
     ];
 
+    if (showProjectSection) {
+        return (
+            <div style={{ position: 'fixed', left: 20, top: '50%', transform: 'translateY(-50%)' }}>
+                <Fab onClick={onBackClick}>
+                    <ArrowBackIcon />
+                </Fab>
+            </div>
+        );
+    }
+
+    const filteredFabData = showProjectSection ? fabData.filter(fab => fab.label !== 'Projects') : fabData;
+
     return (
         <Stack direction="column" spacing={3}>
-            {fabData.map((fab) => (
-                <div className={classes.fabContainer} key={fab.label}>
+            {filteredFabData.map((fab, index) => (
+                <div className={`${classes.fabContainer} ${index === 0 && !isMobile ? classes.fabTopCentered : ''}`} key={fab.label}>
                     <Fab
                         variant="round"
                         size="large"
