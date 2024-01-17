@@ -44,19 +44,23 @@ const ProjectCard = (props) => {
   const { classes, image, title, description, githubLink, websiteLink } = props;
 
   const renderGitHubLinks = () => {
+    // Check if githubLink is an array or a single value and render accordingly
     if (Array.isArray(githubLink)) {
       return githubLink.map((link, index) => (
-        <IconButton key={index} aria-label="github link" onClick={() => window.open(link, '_blank')}>
-          <GitHubIcon className={classes.icon} />
-        </IconButton>
+        link && (
+          <IconButton key={index} aria-label="github link" onClick={() => window.open(link, '_blank')}>
+            <GitHubIcon className={classes.icon} />
+          </IconButton>
+        )
       ));
-    } else {
+    } else if (githubLink) {
       return (
         <IconButton aria-label="github link" onClick={() => window.open(githubLink, '_blank')}>
           <GitHubIcon className={classes.icon} />
         </IconButton>
       );
     }
+    return null;
   };
 
   return (

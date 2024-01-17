@@ -21,7 +21,6 @@ const projects = [
     image: 'items/OliviaChen.png',
     title: 'Portfolio',
     description: 'I designed an innovative portfolio website using React for a dynamic, responsive user interface, and Firebase for robust back-end functionality. The site features full CRUD (Create, Read, Update, Delete) capabilities, allowing users to effortlessly manage their content. React\'s component- based architecture enhances the user experience with interactive elements, while Firebase provides a real - time database, authentication, and hosting.This combination ensures a seamless, intuitive experience for users, showcasing my skills in modern web development technologies."',
-    githubLink: 'https://github.com/user/project-Three',
     websiteLink: 'https://oliviachen.art/'
   },
 ];
