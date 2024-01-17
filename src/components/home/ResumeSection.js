@@ -32,7 +32,7 @@ function ResumeSection(props) {
     <Paper className={classes.paper}>
       {/* Use the ZoomImage component */}
       <ZoomImage
-        src="Neo Maralit Resume.jpg"
+        src="items/Neo Maralit Resume.jpg"
         alt="Neo Maralit Resume"
         className={classes.imageStyle}
         data-aos="zoom-out"
@@ -44,7 +44,7 @@ function ResumeSection(props) {
         color="primary"
         startIcon={<DownloadIcon />}
         className={classes.downloadButton}
-        href="Neo Maralit Resume.pdf"
+        href="items/Neo Maralit Resume.pdf"
         download
       >
         Download Resume

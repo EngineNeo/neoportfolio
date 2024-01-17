@@ -1,7 +1,7 @@
 // Add personal email copy
 
-import React, { useRef } from "react";
-import { Typography, TextField, Button, Paper } from "@mui/material";
+import React, { useState, useRef } from "react";
+import { Typography, TextField, Button, Paper, Snackbar } from "@mui/material";
 import MailIcon from '@mui/icons-material/Mail';
 import emailjs from '@emailjs/browser';
 import { withStyles } from '@mui/styles';
@@ -37,6 +37,8 @@ const styles = (theme) => ({
 function ContactSection(props) {
     const { classes } = props;
     const form = useRef();
+    const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
+    const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
 
     const sendEmail = (e) => {
         e.preventDefault();
@@ -44,14 +46,47 @@ function ContactSection(props) {
         emailjs.sendForm(serviceId, templateId, form.current, publicKey)
             .then((result) => {
                 console.log(result.text);
+                setOpenSuccessSnackbar(true);
                 e.target.reset();
             }, (error) => {
                 console.log(error.text);
+                setOpenErrorSnackbar(true);
             });
+    };
+
+    const handleCloseSuccessSnackbar = () => {
+        setOpenSuccessSnackbar(false);
+    };
+
+    const handleCloseErrorSnackbar = () => {
+        setOpenErrorSnackbar(false);
     };
 
     return (
         <Paper className={classes.paperStyle}>
+            <Snackbar
+                open={openSuccessSnackbar}
+                autoHideDuration={6000}
+                onClose={handleCloseSuccessSnackbar}
+                message="Message sent successfully!"
+                action={
+                    <Button color="secondary" size="small" onClick={handleCloseSuccessSnackbar}>
+                        Close
+                    </Button>
+                }
+            />
+
+            <Snackbar
+                open={openErrorSnackbar}
+                autoHideDuration={6000}
+                onClose={handleCloseErrorSnackbar}
+                message="Failed to send message. Please try again."
+                action={
+                    <Button color="secondary" size="small" onClick={handleCloseErrorSnackbar}>
+                        Close
+                    </Button>
+                }
+            />
             <Typography variant="h2" align="center" color="white" style={{ marginBottom: '1rem' }}>
                 Let's get in touch <MailIcon className={classes.icon} />
             </Typography>
@@ -73,10 +108,12 @@ function ContactSection(props) {
                     name="user_email"
                     type="email"
                     fullWidth
+                    required  // Add this line
                     className={classes.textFieldStyles}
                     InputLabelProps={{ style: { color: 'white' } }}
                     InputProps={{ style: { color: 'white' } }}
                 />
+
                 <TextField
                     label="Message"
                     variant="filled"
@@ -85,6 +122,7 @@ function ContactSection(props) {
                     multiline
                     rows={4}
                     fullWidth
+                    required  // Add this line
                     className={classes.textFieldStyles}
                     InputLabelProps={{ style: { color: 'white' } }}
                     InputProps={{ style: { color: 'white' } }}
