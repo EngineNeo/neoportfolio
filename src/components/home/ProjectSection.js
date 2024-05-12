@@ -14,8 +14,8 @@ const projects = [
   {
     image: 'items/Options.png',
     title: 'Options Pricing Application',
-    description: 'An advanced options pricing application using Streamlit, harnessing the power of Python\'s robust libraries. This application utilizes NumPy for numerical computations, Pandas for data handling, and Matplotlib for visualizations. I\'ve integrated QuantLib for complex financial calculations and Scikit- learn for predictive modeling. The user - friendly Streamlit interface brings this complex functionality to life, making options pricing analysis both accessible and comprehensive for financial professionals and enthusiasts.',
-    githubLink: 'https://github.com/user/project-two'
+    description: 'An advanced options pricing application using Streamlit, harnessing the power of Python\'s robust libraries. This application utilizes NumPy for numerical computations, Pandas for data handling, and Matplotlib for visualizations. I\'ve integrated Arch models for complex predictive modeling. The user - friendly Streamlit interface brings this complex functionality to life, making options pricing analysis both accessible and comprehensive for financial professionals and enthusiasts.',
+    githubLink: 'https://github.com/EngineNeo/options-pricing'
   },
   {
     image: 'items/OliviaChen.png',
