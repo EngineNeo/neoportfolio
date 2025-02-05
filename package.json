@@ -1,7 +1,7 @@
 {
   "name": "neo-portfolio",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "homepage": "https://neomaralit.com",
   "description": "My Own Personal Portfolio made with React and MUI",
   "dependencies": {
