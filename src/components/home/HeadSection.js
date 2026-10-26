@@ -7,7 +7,11 @@ import { Typography } from "@mui/material";
 const styles = (theme) => ({
   wrapper: {
     position: "relative",
-    minHeight: "100vh",
+    // svh = visible height with mobile browser bars shown, so no phantom scroll
+    minHeight: "100svh",
+    fallbacks: {
+      minHeight: "100vh",
+    },
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",

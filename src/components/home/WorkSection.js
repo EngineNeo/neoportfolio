@@ -53,7 +53,11 @@ const styles = (theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: '100vh',
+    // svh = visible height with mobile browser bars shown, so no phantom scroll
+    minHeight: '100svh',
+    fallbacks: {
+      minHeight: '100vh',
+    },
     padding: theme.spacing(10, 2, 14),
     boxSizing: 'border-box',
     [theme.breakpoints.down('sm')]: {

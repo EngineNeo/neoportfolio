@@ -25,7 +25,11 @@ const backdropProps = {
 const styles = (theme) => ({
   wrapper: {
     position: 'relative',
-    minHeight: '100vh',
+    // svh = visible height with mobile browser bars shown, so no phantom scroll
+    minHeight: '100svh',
+    fallbacks: {
+      minHeight: '100vh',
+    },
     overflowX: "hidden",
   },
   // Both pages share one grid cell so they overlap while sliding

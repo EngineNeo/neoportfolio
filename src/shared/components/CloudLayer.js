@@ -37,7 +37,8 @@ const makeCloud = (rand, vw, x) => {
     top: rand() * 88 - 4,
     shape: rand() < 0.55 ? 0 : 1,
     flip: rand() < 0.5,
-    speed: (6 + depth * 14) * viewScale(vw), // px per second
+    // px per second; not scaled down on phones, or the drift reads as frozen
+    speed: 10 + depth * 18,
     bobPhase: rand() * Math.PI * 2,
     opacity: Math.min(1, 0.65 + depth * 0.35),
   };
@@ -45,7 +46,7 @@ const makeCloud = (rand, vw, x) => {
 
 const makeSky = (rand) => {
   const vw = window.innerWidth;
-  const count = Math.max(5, Math.min(12, Math.round(vw / 150)));
+  const count = Math.max(6, Math.min(12, Math.round(vw / 150)));
   const clouds = [];
   for (let i = 0; i < count; i++) {
     // Spread the opening sky across the screen instead of all off-left
@@ -98,22 +99,39 @@ function CloudLayer() {
 
   useEffect(() => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const pointer = { x: 0, y: 0, active: false };
+    // lastX/lastY track the previous frame's position so drags can drag clouds along
+    const pointer = { x: 0, y: 0, lastX: 0, lastY: 0, active: false };
+    const gusts = []; // tap/click points waiting to be applied on the next frame
     const physics = new Map(); // cloud id -> hover spring state
     let frameId;
     let last = performance.now();
 
-    const onMove = (e) => {
-      pointer.x = e.clientX;
-      pointer.y = e.clientY;
+    const setPointer = (x, y) => {
+      if (!pointer.active) {
+        pointer.lastX = x;
+        pointer.lastY = y;
+      }
+      pointer.x = x;
+      pointer.y = y;
       pointer.active = true;
+    };
+    const onMove = (e) => {
+      if (e.pointerType === "mouse") setPointer(e.clientX, e.clientY);
     };
     const onOut = (e) => {
       if (!e.relatedTarget) pointer.active = false;
     };
-    // A lifted finger has no hover, so let the clouds settle back
-    const onUp = (e) => {
-      if (e.pointerType !== "mouse") pointer.active = false;
+    const onDown = (e) => {
+      gusts.push({ x: e.clientX, y: e.clientY });
+    };
+    // Touch events keep firing while the page scrolls, unlike pointer
+    // events, which the browser cancels as soon as a drag becomes a scroll
+    const onTouch = (e) => {
+      const t = e.touches[0];
+      if (t) setPointer(t.clientX, t.clientY);
+    };
+    const onTouchEnd = (e) => {
+      if (e.touches.length === 0) pointer.active = false;
     };
 
     const tick = (now) => {
@@ -122,6 +140,11 @@ function CloudLayer() {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       const list = cloudsRef.current;
+      const taps = gusts.splice(0);
+      const dragX = pointer.active ? pointer.x - pointer.lastX : 0;
+      const dragY = pointer.active ? pointer.y - pointer.lastY : 0;
+      pointer.lastX = pointer.x;
+      pointer.lastY = pointer.y;
       let respawned = null;
 
       // Read every rect before writing any transform to avoid layout thrash
@@ -165,6 +188,32 @@ function CloudLayer() {
             tr = (dx / dist) * f * 7;
             ts = 1 + 0.05 * f;
           }
+
+          // Drag: a moving finger or cursor sweeps nearby clouds along with it
+          const sweep = Math.max(reach * 1.4, 160);
+          if (dist < sweep && (dragX || dragY)) {
+            const f = 1 - dist / sweep;
+            c.vx += dragX * f * 0.8;
+            c.vy += dragY * f * 0.5;
+            c.vr += dragX * f * 0.08;
+          }
+        }
+
+        if (!reduceMotion) {
+          // Tap or click: a gust that knocks nearby clouds away and spins them
+          taps.forEach((tap) => {
+            const dx = rect.left + rect.width / 2 - tap.x;
+            const dy = rect.top + rect.height / 2 - tap.y;
+            const dist = Math.max(Math.hypot(dx, dy), 1);
+            const reach = Math.max(240, vw * 0.5);
+            if (dist < reach) {
+              const f = 1 - dist / reach;
+              c.vx += (dx / dist) * f * 24;
+              c.vy += (dy / dist) * f * 16;
+              c.vr += (dx >= 0 ? 1 : -1) * f * 2;
+              c.s += 0.1 * f;
+            }
+          });
         }
 
         [c.x, c.vx] = spring(c.x, c.vx, tx);
@@ -187,18 +236,21 @@ function CloudLayer() {
       if (!reduceMotion) frameId = requestAnimationFrame(tick);
     };
 
-    window.addEventListener("pointermove", onMove, { passive: true });
-    document.addEventListener("pointerout", onOut);
-    window.addEventListener("pointerup", onUp);
-    window.addEventListener("pointercancel", onUp);
+    const listeners = [
+      [window, "pointermove", onMove],
+      [document, "pointerout", onOut],
+      [window, "pointerdown", onDown],
+      [window, "touchstart", onTouch],
+      [window, "touchmove", onTouch],
+      [window, "touchend", onTouchEnd],
+      [window, "touchcancel", onTouchEnd],
+    ];
+    listeners.forEach(([target, type, fn]) => target.addEventListener(type, fn, { passive: true }));
     frameId = requestAnimationFrame(tick);
 
     return () => {
       cancelAnimationFrame(frameId);
-      window.removeEventListener("pointermove", onMove);
-      document.removeEventListener("pointerout", onOut);
-      window.removeEventListener("pointerup", onUp);
-      window.removeEventListener("pointercancel", onUp);
+      listeners.forEach(([target, type, fn]) => target.removeEventListener(type, fn));
     };
   }, [rand]);
 
