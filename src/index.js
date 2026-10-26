@@ -8,4 +8,6 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
-serviceWorkerRegistration.register();
+// No offline caching: it served stale builds after deploys.
+// scripts/sw-kill-switch.js removes the old worker from returning visitors.
+serviceWorkerRegistration.unregister();
