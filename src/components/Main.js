@@ -7,30 +7,46 @@ import "aos/dist/aos.css";
 import Routing from "./Routing";
 import Modal from "@mui/material/Modal";
 import Slide from '@mui/material/Slide';
+import CloudLayer from "../shared/components/CloudLayer";
 
 import ContactSection from "./home/ContactSection";
 import ResumeSection from "./home/ResumeSection";
-import ProjectSection from "./home/ProjectSection";
+import WorkSection from "./home/WorkSection";
 
 AOS.init({ once: true });
 
+const backdropProps = {
+  style: {
+    backgroundColor: 'rgba(29, 53, 87, 0.3)',
+    backdropFilter: 'blur(4px)',
+  },
+};
+
 const styles = (theme) => ({
   wrapper: {
-    backgroundColor: theme.palette.darkBlack,
+    position: 'relative',
+    minHeight: '100vh',
     overflowX: "hidden",
   },
-  fabGroupPosition: {
-    position: 'fixed',
-    bottom: theme.spacing(4),
-    right: theme.spacing(4),
-    zIndex: 1000, 
+  // Both pages share one grid cell so they overlap while sliding
+  content: {
+    position: 'relative',
+    zIndex: 1,
+    display: 'grid',
+  },
+  page: {
+    gridArea: '1 / 1',
+    minWidth: 0,
   },
   modalContent: {
     outline: 'none',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
+  modalInner: {
+    outline: 'none',
+  },
 });
 
 function Main(props) {
@@ -38,15 +54,12 @@ function Main(props) {
   const [isContactModalOpen, setContactModalOpen] = useState(false);
   const [isResumeModalOpen, setResumeModalOpen] = useState(false); 
   const [activeSection, setActiveSection] = useState('routing');
-  const [slideDirection, setSlideDirection] = useState('left');
 
-  const showProjects = () => {
-    setSlideDirection('left'); // Slide left when showing projects
-    setActiveSection('projects');
+  const showWork = () => {
+    setActiveSection('work');
   };
 
   const showRouting = () => {
-    setSlideDirection('right'); // Slide right when going back
     setActiveSection('routing');
   };
 
@@ -60,39 +73,50 @@ function Main(props) {
 
 return (
     <div className={classes.wrapper}>
+    <CloudLayer />
     <Modal
       open={isContactModalOpen}
       onClose={handleToggleContactModal}
       className={classes.modalContent}
+      BackdropProps={backdropProps}
     >
-      <ContactSection />
+      <div className={classes.modalInner}>
+        <ContactSection />
+      </div>
     </Modal>
     <Modal
       open={isResumeModalOpen}
       onClose={handleToggleResumeModal}
       className={classes.modalContent}
+      BackdropProps={backdropProps}
     >
-      <ResumeSection />
+      <div className={classes.modalInner}>
+        <ResumeSection />
+      </div>
     </Modal>
-    <Slide direction={slideDirection} in={activeSection === 'routing'} mountOnEnter unmountOnExit>
-      <div>
-        {activeSection === 'routing' && <Routing />}
-      </div>
-    </Slide>
-    <Slide direction={slideDirection} in={activeSection === 'projects'} mountOnEnter unmountOnExit>
-      <div>
-        {activeSection === 'projects' && <ProjectSection />}
-      </div>
-    </Slide>
-      <div className={classes.fabGroupPosition}>
-        <FabGroup
-          onEmailClick={handleToggleContactModal}
-          onResumeClick={handleToggleResumeModal}
-          onProjectsClick={showProjects}
-          onBackClick={showRouting}
-          showProjectSection={activeSection === 'projects'}
-        />
-      </div>
+    {/*
+      Going to Work everything travels right, with the clouds: home exits
+      off the right edge and Work enters from the left. Back reverses it.
+    */}
+    <div className={classes.content}>
+      <Slide direction="left" in={activeSection === 'routing'} mountOnEnter unmountOnExit timeout={600}>
+        <div className={classes.page}>
+          <Routing />
+        </div>
+      </Slide>
+      <Slide direction="right" in={activeSection === 'work'} mountOnEnter unmountOnExit timeout={600}>
+        <div className={classes.page}>
+          <WorkSection />
+        </div>
+      </Slide>
+    </div>
+    <FabGroup
+      onEmailClick={handleToggleContactModal}
+      onResumeClick={handleToggleResumeModal}
+      onWorkClick={showWork}
+      onBackClick={showRouting}
+      showWorkSection={activeSection === 'work'}
+    />
     </div>
   );
 }

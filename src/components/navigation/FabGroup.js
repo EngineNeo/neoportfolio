@@ -1,129 +1,160 @@
 import React, { useState } from 'react';
 import Fab from '@mui/material/Fab';
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
 import DescriptionIcon from '@mui/icons-material/Description';
-import FolderIcon from '@mui/icons-material/Folder';
-import Stack from '@mui/material/Stack';
-import { withStyles } from '@mui/styles'
+import WorkIcon from '@mui/icons-material/Work';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { withStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+const paperShadow = '0 3px 0 rgba(120, 165, 205, 0.35), 0 10px 20px rgba(50, 95, 145, 0.18)';
 
 const styles = theme => ({
-    fabContainer: {
-        display: 'flex',
-        alignItems: 'center',
-        position: 'relative',
-        margin: '12px 0',
-    },
-    fab: {
-        width: '70px',
-        height: '70px',
-        transition: 'all 0.3s',
-        justifyContent: 'center',
-        alignItems: 'center',
+    // Work sits on the right edge, vertically centred
+    workPosition: {
+        position: 'fixed',
+        top: '50%',
+        right: theme.spacing(3),
+        transform: 'translateY(-50%)',
+        zIndex: 1000,
         [theme.breakpoints.down('md')]: {
-            width: '50px',
-            height: '50px',
+            right: theme.spacing(2),
         },
     },
-    fabTopCentered: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '120px',
-    },
-    label: {
-        position: 'absolute',
-        right: '100%',
-        marginRight: '12px',
-        opacity: 0,
-        color: 'white',
-        transition: 'opacity 0.3s',
-        whiteSpace: 'nowrap',
-        fontSize: '1.1rem',
-        lineHeight: '70px',
-    },
-    labelVisible: {
-        opacity: 1,
-    },
-    icon: {
-        fontSize: '2rem',
+    backPosition: {
+        position: 'fixed',
+        top: '50%',
+        left: theme.spacing(3),
+        transform: 'translateY(-50%)',
+        zIndex: 1000,
         [theme.breakpoints.down('md')]: {
-            width: '1.5rem',
-            height: '1.5rem',
+            left: theme.spacing(2),
+        },
+    },
+    navFab: {
+        boxShadow: paperShadow,
+        transition: 'transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease',
+        '&:hover': {
+            transform: 'translateX(4px)',
+        },
+    },
+    backFab: {
+        '&.MuiFab-default': {
+            backgroundColor: theme.palette.common.white,
+            color: theme.palette.text.primary,
+            '&:hover': {
+                backgroundColor: '#f0f7fe',
+            },
+        },
+        '&:hover': {
+            transform: 'translateX(-4px)',
+        },
+    },
+    navLabel: {
+        marginLeft: theme.spacing(1),
+        fontSize: '1rem',
+    },
+    speedDial: {
+        position: 'fixed',
+        bottom: theme.spacing(4),
+        right: theme.spacing(3),
+        zIndex: 1000,
+        [theme.breakpoints.down('md')]: {
+            bottom: theme.spacing(2),
+            right: theme.spacing(2),
+        },
+        '& .MuiSpeedDial-fab': {
+            boxShadow: paperShadow,
+        },
+    },
+    actionFab: {
+        boxShadow: paperShadow,
+        '&.MuiFab-root': {
+            backgroundColor: theme.palette.common.white,
+            color: theme.palette.text.primary,
+        },
+        '&.MuiFab-root:hover': {
+            backgroundColor: '#e6f2fd',
+            color: theme.palette.primary.main,
         },
     },
 });
 
-const FabGroup = ({ classes, onEmailClick, onResumeClick, onProjectsClick, onBackClick, showProjectSection }) => {
-    const [hover, setHover] = useState({ Projects: false, Resume: false, Email: false, GitHub: false });
+const FabGroup = ({ classes, onEmailClick, onResumeClick, onWorkClick, onBackClick, showWorkSection }) => {
+    const [open, setOpen] = useState(false);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-    const handleMouseEnter = (label) => {
-        setHover({ ...hover, [label]: true });
-    };
+    const actions = [
+        { label: 'Resume', icon: <DescriptionIcon />, onClick: onResumeClick },
+        { label: 'Email', icon: <EmailIcon />, onClick: onEmailClick },
+        { label: 'LinkedIn', icon: <LinkedInIcon />, url: 'https://www.linkedin.com/in/neo-m-9063b3137/' },
+        { label: 'GitHub', icon: <GitHubIcon />, url: 'https://github.com/EngineNeo' },
+    ];
 
-    const handleMouseLeave = (label) => {
-        setHover({ ...hover, [label]: false });
-    };
-
-    const handleClick = (fab) => {
-        if (fab.label === 'Email') {
-            onEmailClick();
-        } else if (fab.label === 'Resume') {
-            onResumeClick();
-        } else if (fab.label === 'Projects') {
-            onProjectsClick();
+    const handleAction = (action) => {
+        setOpen(false);
+        if (action.url) {
+            window.open(action.url, '_blank', 'noopener,noreferrer');
         } else {
-            window.open(fab.url, '_blank');
+            action.onClick();
         }
     };
 
-    const fabData = [
-        { label: 'Projects', icon: <FolderIcon className={classes.icon} />, color: 'primary', url: '/projects' },
-        { label: 'Resume', icon: <DescriptionIcon className={classes.icon} />, color: 'default' },
-        { label: 'Email', icon: <EmailIcon className={classes.icon} />, color: 'default' },
-        { label: 'LinkedIn', icon: <LinkedInIcon className={classes.icon} />, color: 'default', url: 'https://www.linkedin.com/in/neo-m-9063b3137/' },
-        { label: 'GitHub', icon: <GitHubIcon className={classes.icon} />, color: 'default', url: 'https://github.com/EngineNeo' },
-    ];
-
-    if (showProjectSection) {
-        return (
-            <div style={{ position: 'fixed', left: 20, top: '50%', transform: 'translateY(-50%)' }}>
-                <Fab onClick={onBackClick}>
-                    <ArrowBackIcon />
-                </Fab>
-            </div>
-        );
-    }
-
-    const filteredFabData = showProjectSection ? fabData.filter(fab => fab.label !== 'Projects') : fabData;
-
     return (
-        <Stack direction="column" spacing={3}>
-            {filteredFabData.map((fab, index) => (
-                <div className={`${classes.fabContainer} ${index === 0 && !isMobile ? classes.fabTopCentered : ''}`} key={fab.label}>
+        <>
+            {showWorkSection ? (
+                <div className={classes.backPosition}>
                     <Fab
-                        variant="round"
-                        size="large"
-                        color={fab.color}
-                        className={classes.fab}
-                        onMouseEnter={() => handleMouseEnter(fab.label)}
-                        onMouseLeave={() => handleMouseLeave(fab.label)}
-                        onClick={() => handleClick(fab)}
+                        onClick={onBackClick}
+                        aria-label="Back"
+                        className={`${classes.navFab} ${classes.backFab}`}
                     >
-                        {fab.icon}
+                        <ArrowBackIcon />
                     </Fab>
-                    <span className={`${hover[fab.label] ? classes.labelVisible : ''} ${classes.label}`}>
-                        {fab.label}
-                    </span>
                 </div>
-            ))}
-        </Stack>
+            ) : (
+                <div className={classes.workPosition}>
+                    <Fab
+                        variant={isMobile ? 'circular' : 'extended'}
+                        color="primary"
+                        aria-label="Work"
+                        onClick={onWorkClick}
+                        className={classes.navFab}
+                    >
+                        <WorkIcon />
+                        {!isMobile && <span className={classes.navLabel}>Work</span>}
+                    </Fab>
+                </div>
+            )}
+            {/* The other links pop out sideways from the corner button */}
+            <SpeedDial
+                ariaLabel="Resume, email and links"
+                direction="left"
+                className={classes.speedDial}
+                icon={<SpeedDialIcon />}
+                open={open}
+                onOpen={() => setOpen(true)}
+                onClose={() => setOpen(false)}
+            >
+                {actions.map((action) => (
+                    <SpeedDialAction
+                        key={action.label}
+                        icon={action.icon}
+                        tooltipTitle={action.label}
+                        tooltipPlacement="top"
+                        FabProps={{ className: classes.actionFab }}
+                        onClick={() => handleAction(action)}
+                    />
+                ))}
+            </SpeedDial>
+        </>
     );
 };
 

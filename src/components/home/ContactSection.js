@@ -12,25 +12,43 @@ const publicKey = process.env.REACT_APP_YOUR_PUBLIC_KEY;
 
 const styles = (theme) => ({
     paperStyle: {
-        backgroundColor: "#343a40",
-        padding: theme.spacing(3),
-        width: '100%', // Default width
-        [theme.breakpoints.up('sm')]: {
-            width: '800px' // Width on screens larger than 'sm'
-        },
+        backgroundColor: theme.palette.common.white,
+        borderRadius: 20,
+        padding: theme.spacing(4),
+        width: '800px',
+        maxWidth: 'calc(100vw - 32px)',
+        maxHeight: 'calc(100vh - 32px)',
+        overflowY: 'auto',
+        boxSizing: 'border-box',
         minHeight: "400px",
-        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.30)',
+        boxShadow: '0 3px 0 rgba(120, 165, 205, 0.35), 0 24px 48px rgba(29, 53, 87, 0.22)',
+    },
+    heading: {
+        fontWeight: 800,
+        marginBottom: theme.spacing(2),
     },
     textFieldStyles: {
-        backgroundColor: '#3b444b',
-        color: 'white',
+        '& .MuiFilledInput-root': {
+            backgroundColor: '#f0f7fe',
+            borderRadius: 12,
+            '&:hover, &.Mui-focused': {
+                backgroundColor: '#e6f2fd',
+            },
+            '&:before, &:after': {
+                display: 'none',
+            },
+        },
     },
     submitButton: {
-        marginTop: theme.spacing(1),
-        color: '#3b444b',
+        marginTop: theme.spacing(2),
+        paddingLeft: theme.spacing(4),
+        paddingRight: theme.spacing(4),
+        borderRadius: 999,
     },
     icon: {
         fontSize: 50,
+        verticalAlign: 'middle',
+        color: theme.palette.primary.main,
     }
 });
 
@@ -87,7 +105,7 @@ function ContactSection(props) {
                     </Button>
                 }
             />
-            <Typography variant="h2" align="center" color="white" style={{ marginBottom: '1rem' }}>
+            <Typography variant="h2" align="center" className={classes.heading}>
                 Let's get in touch <MailIcon className={classes.icon} />
             </Typography>
             <form ref={form} onSubmit={sendEmail}>
@@ -98,8 +116,6 @@ function ContactSection(props) {
                     name="user_name"
                     fullWidth
                     className={classes.textFieldStyles}
-                    InputLabelProps={{ style: { color: 'white' } }}
-                    InputProps={{ style: { color: 'white' } }}
                 />
                 <TextField
                     label="Email"
@@ -108,10 +124,8 @@ function ContactSection(props) {
                     name="user_email"
                     type="email"
                     fullWidth
-                    required  // Add this line
+                    required
                     className={classes.textFieldStyles}
-                    InputLabelProps={{ style: { color: 'white' } }}
-                    InputProps={{ style: { color: 'white' } }}
                 />
 
                 <TextField
@@ -122,10 +136,8 @@ function ContactSection(props) {
                     multiline
                     rows={4}
                     fullWidth
-                    required  // Add this line
+                    required
                     className={classes.textFieldStyles}
-                    InputLabelProps={{ style: { color: 'white' } }}
-                    InputProps={{ style: { color: 'white' } }}
                 />
                 <Button type="submit" variant="contained" color="primary" className={classes.submitButton}>
                     Send

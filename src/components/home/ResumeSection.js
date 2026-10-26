@@ -6,10 +6,14 @@ import ZoomImage from "../../shared/components/ZoomImage";
 
 const styles = (theme) => ({
   paper: {
-    height: '700px',
     width: '500px',
+    maxWidth: 'calc(100vw - 32px)',
+    maxHeight: 'calc(100vh - 32px)',
+    boxSizing: 'border-box',
     display: 'flex',
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: theme.palette.common.white,
+    borderRadius: 20,
+    boxShadow: '0 3px 0 rgba(120, 165, 205, 0.35), 0 24px 48px rgba(29, 53, 87, 0.22)',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -18,10 +22,14 @@ const styles = (theme) => ({
   },
   imageStyle: {
     width: "100%",
-    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.30)',
+    minHeight: 0,
+    objectFit: "contain",
+    borderRadius: 8,
+    boxShadow: '0 4px 14px rgba(29, 53, 87, 0.15)',
   },
   downloadButton: {
     marginTop: theme.spacing(2.5),
+    borderRadius: 999,
   },
 });
 

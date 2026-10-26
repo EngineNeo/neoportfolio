@@ -1,11 +1,13 @@
 import { createTheme, responsiveFontSizes } from "@mui/material";
 
 // colors
-const primary = "#feb426";
-const secondary = "#0e1111";
+const primary = "#2f6fb3";
+const ink = "#1d3557";
+const inkSoft = "#4a6382";
+const secondary = ink;
 const black = "#343a40";
 const darkBlack = "#0e1111";
-const background = "#0e1111";
+const background = "#e3f2fd";
 const warningLight = "rgba(253, 200, 69, .3)";
 const warningMain = "rgba(253, 200, 69, .5)";
 const warningDark = "rgba(253, 200, 69, .7)";
@@ -26,8 +28,12 @@ const spacing = 8;
 
 const theme = createTheme({
   palette: {
-    primary: { main: primary },
+    primary: { main: primary, contrastText: "#ffffff" },
     secondary: { main: secondary },
+    text: {
+      primary: ink,
+      secondary: inkSoft
+    },
     common: {
       black,
       darkBlack
@@ -43,9 +49,9 @@ const theme = createTheme({
     tonalOffset: 0.2,
     background: {
       default: background
-    },
-    spacing
+    }
   },
+  spacing,
   breakpoints: {
     // Define custom breakpoint values.
     // These will apply to Material-UI components that use responsive
@@ -119,8 +125,15 @@ const theme = createTheme({
       }
     }
   },
+  shape: {
+    borderRadius: 12
+  },
   typography: {
-    useNextVariants: true
+    fontFamily: "'Nunito', 'Helvetica', 'Arial', sans-serif",
+    button: {
+      fontWeight: 700,
+      textTransform: "none"
+    }
   }
 });
 
