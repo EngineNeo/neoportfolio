@@ -71,10 +71,14 @@ const styles = (theme) => ({
       marginBottom: theme.spacing(3),
     },
   },
+  // Width cap lives on a wrapper: a margin on the Grid itself would cancel
+  // the negative margin MUI uses to offset item spacing
+  gridWrap: {
+    width: '100%',
+    maxWidth: 1400,
+  },
   gridContainer: {
     justifyContent: 'center',
-    maxWidth: 1400,
-    margin: '0 auto',
   },
   gridItem: {
     display: 'flex',
@@ -91,13 +95,15 @@ const WorkSection = (props) => {
         <Typography variant="h2" component="h2" className={classes.heading}>
           Work
         </Typography>
-        <Grid container spacing={{ xs: 2, sm: 3 }} className={classes.gridContainer}>
-          {work.map((job) => (
-            <Grid item key={`${job.company}-${job.dates}`} xs={12} sm={6} lg={4} className={classes.gridItem}>
-              <WorkCard {...job} />
-            </Grid>
-          ))}
-        </Grid>
+        <div className={classes.gridWrap}>
+          <Grid container spacing={{ xs: 2, sm: 3 }} className={classes.gridContainer}>
+            {work.map((job) => (
+              <Grid item key={`${job.company}-${job.dates}`} xs={12} sm={6} lg={4} className={classes.gridItem}>
+                <WorkCard {...job} />
+              </Grid>
+            ))}
+          </Grid>
+        </div>
       </div>
     </Fragment>
   );
