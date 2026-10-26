@@ -56,6 +56,9 @@ const styles = (theme) => ({
     minHeight: '100vh',
     padding: theme.spacing(10, 2, 14),
     boxSizing: 'border-box',
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(6, 2, 12),
+    },
     [theme.breakpoints.up('md')]: {
       padding: theme.spacing(10, 12, 14),
     },
@@ -64,6 +67,9 @@ const styles = (theme) => ({
     fontWeight: 800,
     marginBottom: theme.spacing(5),
     textAlign: 'center',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: theme.spacing(3),
+    },
   },
   gridContainer: {
     justifyContent: 'center',
@@ -85,7 +91,7 @@ const WorkSection = (props) => {
         <Typography variant="h2" component="h2" className={classes.heading}>
           Work
         </Typography>
-        <Grid container spacing={3} className={classes.gridContainer}>
+        <Grid container spacing={{ xs: 2, sm: 3 }} className={classes.gridContainer}>
           {work.map((job) => (
             <Grid item key={`${job.company}-${job.dates}`} xs={12} sm={6} lg={4} className={classes.gridItem}>
               <WorkCard {...job} />

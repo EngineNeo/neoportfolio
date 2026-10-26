@@ -22,10 +22,13 @@ const mulberry32 = (seed) => () => {
 
 let nextId = 0;
 
+// Phones get smaller clouds so a near one doesn't fill the screen
+const viewScale = (vw) => Math.min(1, Math.max(0.5, vw / 1100));
+
 // depth 0.35 (far: small, faint, slow) .. 1.2 (near: big, quick)
 const makeCloud = (rand, vw, x) => {
   const depth = 0.35 + rand() * 0.85;
-  const width = Math.round(100 + depth * 170 + rand() * 40);
+  const width = Math.round((100 + depth * 170 + rand() * 40) * viewScale(vw));
   return {
     id: nextId++,
     depth,
@@ -34,7 +37,7 @@ const makeCloud = (rand, vw, x) => {
     top: rand() * 88 - 4,
     shape: rand() < 0.55 ? 0 : 1,
     flip: rand() < 0.5,
-    speed: 6 + depth * 14, // px per second
+    speed: (6 + depth * 14) * viewScale(vw), // px per second
     bobPhase: rand() * Math.PI * 2,
     opacity: Math.min(1, 0.65 + depth * 0.35),
   };
@@ -63,6 +66,7 @@ const css = `
 .nm-cloud {
   position: absolute;
   left: 0;
+  min-width: 70px;
   will-change: transform;
 }
 .nm-cloud-inner {
@@ -106,6 +110,10 @@ function CloudLayer() {
     };
     const onOut = (e) => {
       if (!e.relatedTarget) pointer.active = false;
+    };
+    // A lifted finger has no hover, so let the clouds settle back
+    const onUp = (e) => {
+      if (e.pointerType !== "mouse") pointer.active = false;
     };
 
     const tick = (now) => {
@@ -181,12 +189,16 @@ function CloudLayer() {
 
     window.addEventListener("pointermove", onMove, { passive: true });
     document.addEventListener("pointerout", onOut);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
     frameId = requestAnimationFrame(tick);
 
     return () => {
       cancelAnimationFrame(frameId);
       window.removeEventListener("pointermove", onMove);
       document.removeEventListener("pointerout", onOut);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
     };
   }, [rand]);
 

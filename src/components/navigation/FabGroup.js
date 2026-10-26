@@ -33,15 +33,22 @@ const styles = theme => ({
         left: theme.spacing(3),
         transform: 'translateY(-50%)',
         zIndex: 1000,
+        // Below md the cards reach the screen edges, so park Back in the
+        // bottom-left corner opposite the speed dial
         [theme.breakpoints.down('md')]: {
             left: theme.spacing(2),
+            top: 'auto',
+            bottom: theme.spacing(2),
+            transform: 'none',
         },
     },
     navFab: {
         boxShadow: paperShadow,
         transition: 'transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease',
-        '&:hover': {
-            transform: 'translateX(4px)',
+        '@media (hover: hover)': {
+            '&:hover': {
+                transform: 'translateX(4px)',
+            },
         },
     },
     backFab: {
@@ -52,8 +59,10 @@ const styles = theme => ({
                 backgroundColor: '#f0f7fe',
             },
         },
-        '&:hover': {
-            transform: 'translateX(-4px)',
+        '@media (hover: hover)': {
+            '&:hover': {
+                transform: 'translateX(-4px)',
+            },
         },
     },
     navLabel: {

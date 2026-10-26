@@ -13,15 +13,20 @@ const styles = (theme) => ({
     flexDirection: 'column',
     height: '100%',
     width: '100%',
-    maxWidth: '420px',
     backgroundColor: theme.palette.common.white,
     color: theme.palette.text.primary,
     borderRadius: 18,
     boxShadow: '0 3px 0 rgba(120, 165, 205, 0.35), 0 14px 30px rgba(50, 95, 145, 0.15)',
     transition: 'transform 0.25s ease, box-shadow 0.25s ease',
-    '&:hover': {
-      transform: 'translateY(-6px) rotate(-0.5deg)',
-      boxShadow: '0 3px 0 rgba(120, 165, 205, 0.35), 0 22px 40px rgba(50, 95, 145, 0.2)',
+    // Only lift on real hover, so taps on touch screens don't leave it stuck
+    '@media (hover: hover)': {
+      '&:hover': {
+        transform: 'translateY(-6px) rotate(-0.5deg)',
+        boxShadow: '0 3px 0 rgba(120, 165, 205, 0.35), 0 22px 40px rgba(50, 95, 145, 0.2)',
+      },
+    },
+    [theme.breakpoints.up('sm')]: {
+      maxWidth: '420px',
     },
   },
   // Pale blue band, like a coloured strip of paper across the top
@@ -30,6 +35,9 @@ const styles = (theme) => ({
     padding: theme.spacing(3, 3, 2),
     background: 'linear-gradient(180deg, #e3f2fd 0%, #f1f8fe 100%)',
     borderBottom: '1px dashed #cfe2f3',
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(2.5, 2, 1.5),
+    },
   },
   dates: {
     display: 'inline-block',
@@ -64,6 +72,9 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(2, 3, 3),
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(2, 2, 2.5),
+    },
   },
   highlights: {
     margin: 0,

@@ -17,15 +17,28 @@ const styles = (theme) => ({
         padding: theme.spacing(4),
         width: '800px',
         maxWidth: 'calc(100vw - 32px)',
-        maxHeight: 'calc(100vh - 32px)',
+        // dvh tracks the visible area as mobile browser bars show/hide
+        maxHeight: 'calc(100dvh - 32px)',
+        fallbacks: {
+            maxHeight: 'calc(100vh - 32px)',
+        },
         overflowY: 'auto',
         boxSizing: 'border-box',
         minHeight: "400px",
         boxShadow: '0 3px 0 rgba(120, 165, 205, 0.35), 0 24px 48px rgba(29, 53, 87, 0.22)',
+        [theme.breakpoints.down('sm')]: {
+            padding: theme.spacing(3, 2),
+            borderRadius: 16,
+            minHeight: 0,
+        },
     },
     heading: {
         fontWeight: 800,
         marginBottom: theme.spacing(2),
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '2rem',
+            marginBottom: theme.spacing(1),
+        },
     },
     textFieldStyles: {
         '& .MuiFilledInput-root': {
@@ -44,11 +57,17 @@ const styles = (theme) => ({
         paddingLeft: theme.spacing(4),
         paddingRight: theme.spacing(4),
         borderRadius: 999,
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+        },
     },
     icon: {
         fontSize: 50,
         verticalAlign: 'middle',
         color: theme.palette.primary.main,
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 32,
+        },
     }
 });
 

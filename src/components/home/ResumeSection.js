@@ -8,7 +8,10 @@ const styles = (theme) => ({
   paper: {
     width: '500px',
     maxWidth: 'calc(100vw - 32px)',
-    maxHeight: 'calc(100vh - 32px)',
+    maxHeight: 'calc(100dvh - 32px)',
+    fallbacks: {
+      maxHeight: 'calc(100vh - 32px)',
+    },
     boxSizing: 'border-box',
     display: 'flex',
     backgroundColor: theme.palette.common.white,
