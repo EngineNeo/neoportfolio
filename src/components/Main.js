@@ -104,19 +104,19 @@ return (
       </div>
     </Modal>
     {/*
-      Going to Work everything travels right, with the clouds: home exits
-      off the right edge and Work enters from the left. Back reverses it.
+      Going to Work, Work slides in from the right edge (where its button
+      sits) and home exits off the left. Back reverses it.
       Both slides share one easing so the pages stay edge to edge (MUI's
       default eases enter and exit differently, so they overlapped), and
       appear={false} keeps the first load to the header's own fade-up.
     */}
     <div className={classes.content}>
-      <Slide direction="left" in={activeSection === 'routing'} appear={false} easing={pageEasing} mountOnEnter unmountOnExit timeout={600}>
+      <Slide direction="right" in={activeSection === 'routing'} appear={false} easing={pageEasing} mountOnEnter unmountOnExit timeout={600}>
         <div className={classes.page}>
           <Routing />
         </div>
       </Slide>
-      <Slide direction="right" in={activeSection === 'work'} appear={false} easing={pageEasing} mountOnEnter unmountOnExit timeout={600}>
+      <Slide direction="left" in={activeSection === 'work'} appear={false} easing={pageEasing} mountOnEnter unmountOnExit timeout={600}>
         <div className={classes.page}>
           <WorkSection />
         </div>
