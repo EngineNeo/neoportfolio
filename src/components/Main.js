@@ -22,6 +22,8 @@ const backdropProps = {
   },
 };
 
+const pageEasing = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
 const styles = (theme) => ({
   wrapper: {
     position: 'relative',
@@ -59,11 +61,14 @@ function Main(props) {
   const [isResumeModalOpen, setResumeModalOpen] = useState(false); 
   const [activeSection, setActiveSection] = useState('routing');
 
+  // Start each page at the top so the incoming page isn't off-screen
   const showWork = () => {
+    window.scrollTo(0, 0);
     setActiveSection('work');
   };
 
   const showRouting = () => {
+    window.scrollTo(0, 0);
     setActiveSection('routing');
   };
 
@@ -101,14 +106,17 @@ return (
     {/*
       Going to Work everything travels right, with the clouds: home exits
       off the right edge and Work enters from the left. Back reverses it.
+      Both slides share one easing so the pages stay edge to edge (MUI's
+      default eases enter and exit differently, so they overlapped), and
+      appear={false} keeps the first load to the header's own fade-up.
     */}
     <div className={classes.content}>
-      <Slide direction="left" in={activeSection === 'routing'} mountOnEnter unmountOnExit timeout={600}>
+      <Slide direction="left" in={activeSection === 'routing'} appear={false} easing={pageEasing} mountOnEnter unmountOnExit timeout={600}>
         <div className={classes.page}>
           <Routing />
         </div>
       </Slide>
-      <Slide direction="right" in={activeSection === 'work'} mountOnEnter unmountOnExit timeout={600}>
+      <Slide direction="right" in={activeSection === 'work'} appear={false} easing={pageEasing} mountOnEnter unmountOnExit timeout={600}>
         <div className={classes.page}>
           <WorkSection />
         </div>
