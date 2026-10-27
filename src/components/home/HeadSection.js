@@ -59,7 +59,7 @@ function HeadSection(props) {
             Hello, I'm Neo
           </Typography>
           <Typography variant="h5" align="left" className={classNames(classes.floatIn, classes.subtitle)}>
-            a software engineer dedicated to crafting efficient and innovative solutions
+            a senior software engineer at Fortune, building machine-learning recommendation systems, data pipelines and full-stack web apps
           </Typography>
         </div>
       </div>
